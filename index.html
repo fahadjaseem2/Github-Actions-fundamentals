@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alex Morgan · UI/Web designer</title>
+  <!-- Google Font & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #0b0c10;
+      color: #edf2f7;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* custom gradient blobs (background) */
+    body::before {
+      content: '';
+      position: fixed;
+      width: 70vmax;
+      height: 70vmax;
+      top: -20vmax;
+      right: -10vmax;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 180, 255, 0.15), rgba(160, 100, 255, 0.08) 60%, transparent 80%);
+      border-radius: 50%;
+      z-index: -2;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      width: 70vmax;
+      height: 70vmax;
+      bottom: -20vmax;
+      left: -10vmax;
+      background: radial-gradient(circle at 70% 70%, rgba(255, 120, 220, 0.12), rgba(100, 220, 255, 0.05) 70%, transparent 90%);
+      border-radius: 50%;
+      z-index: -2;
+      filter: blur(90px);
+      pointer-events: none;
+    }
+
+    /* glassmorphism base */
+    .glass {
+      background: rgba(20, 30, 45, 0.25);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 2rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+    }
+
+    .glass-card {
+      background: rgba(18, 25, 40, 0.3);
+      backdrop-filter: blur(10px) saturate(160%);
+      -webkit-backdrop-filter: blur(10px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 2rem;
+      transition: all 0.25s ease;
+    }
+
+    /* container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* navigation */
+    .navbar {
+      position: sticky;
+      top: 1.5rem;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2rem;
+      margin: 1.5rem 2rem 3rem 2rem;
+      background: rgba(8, 15, 30, 0.3);
+      backdrop-filter: blur(14px) saturate(200%);
+      -webkit-backdrop-filter: blur(14px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 4rem;
+      box-shadow: 0 12px 40px -8px rgba(0,0,0,0.5);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(130deg, #ffffff, #c0d0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.7);
+      font-weight: 500;
+      font-size: 1rem;
+      transition: 0.2s;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a:hover {
+      color: white;
+      border-bottom-color: #6dd5ed;
+      transform: translateY(-2px);
+    }
+
+    /* hero */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      margin: 5rem 0 8rem 0;
+    }
+
+    .hero-content {
+      flex: 1 1 350px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+      margin-bottom: 2rem;
+      color: #bdd3ff;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 4.8rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      background: linear-gradient(to right, #ffffff, #b8dbff, #b0a0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #b0c5e0;
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.9rem 2.2rem;
+      border-radius: 3rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: 0.25s ease;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-primary {
+      background: rgba(255, 255, 255, 0.95);
+      color: #0a0f1a;
+      box-shadow: 0 8px 20px -6px rgba(0, 180, 255, 0.4);
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    .btn-primary:hover {
+      background: white;
+      transform: translateY(-4px);
+      box-shadow: 0 18px 30px -8px #80c4ff;
+    }
+
+    .btn-outline {
+      background: rgba(20, 30, 50, 0.3);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+    }
+    .btn-outline:hover {
+      background: rgba(40, 60, 100, 0.5);
+      border-color: #7bb9ff;
+      transform: translateY(-4px);
+    }
+
+    .hero-image {
+      flex: 1 1 300px;
+      display: flex;
+      justify-content: center;
+    }
+    .glass-avatar {
+      width: 320px;
+      height: 320px;
+      border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
+      background: rgba(20, 40, 70, 0.3);
+      backdrop-filter: blur(14px);
+      border: 2px solid rgba(255,255,255,0.15);
+      box-shadow: 0 30px 50px -20px #00000080;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      color: rgba(255,255,255,0.5);
+      transition: 0.35s;
+    }
+    .glass-avatar:hover {
+      border-color: #99ccff;
+      transform: scale(1.02) rotate(1deg);
+      box-shadow: 0 40px 70px -10px #3f96e6;
+    }
+
+    /* section headings */
+    .section-heading {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(145deg, #fff, #b0d0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+      border-left: 5px solid #3d9cff;
+      padding-left: 1.5rem;
+    }
+
+    /* skills grid */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 3rem 0 5rem;
+    }
+    .skill-item {
+      background: rgba(15, 25, 45, 0.3);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      font-weight: 500;
+      color: #d2e5ff;
+      transition: 0.2s;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-item i {
+      color: #76b9ff;
+      font-size: 1.3rem;
+    }
+    .skill-item:hover {
+      background: rgba(50, 90, 150, 0.4);
+      border-color: #70b8ff;
+      transform: scale(1.05) translateY(-3px);
+      box-shadow: 0 10px 20px -8px #3f8eff;
+    }
+
+    /* projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0 5rem;
+    }
+
+    .project-card {
+      background: rgba(18, 28, 45, 0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2.2rem;
+      padding: 1.8rem 1.5rem 2rem;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+      box-shadow: 0 20px 35px -16px #00000080;
+    }
+
+    .project-card:hover {
+      transform: translateY(-12px) scale(1.01);
+      border-color: rgba(140, 200, 255, 0.3);
+      box-shadow: 0 35px 50px -18px #2b7fff, 0 0 0 1px rgba(120, 180, 255, 0.2) inset;
+      background: rgba(25, 40, 65, 0.4);
+    }
+
+    .project-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1.4rem;
+      color: #c3dbff;
+      transition: 0.2s;
+    }
+    .project-card:hover .project-icon {
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .project-card h3 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin: 1.2rem 0 1.5rem;
+    }
+    .tag {
+      background: rgba(70, 130, 220, 0.2);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .project-link {
+      text-decoration: none;
+      font-weight: 600;
+      color: white;
+      border-bottom: 1px solid #80b5ff;
+      padding-bottom: 2px;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .project-link:hover {
+      gap: 12px;
+      color: #b5dcff;
+      border-bottom-color: #ffb3de;
+    }
+
+    /* contact glass panel */
+    .contact-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      background: rgba(10, 20, 35, 0.25);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 4rem;
+      padding: 3rem 3.5rem;
+      margin: 6rem 0 3rem;
+    }
+
+    .contact-left h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .contact-email {
+      font-size: 1.8rem;
+      font-weight: 300;
+      background: linear-gradient(145deg, #cae0ff, #ffffff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      border-bottom: 2px dotted rgba(255,255,255,0.2);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1.8rem;
+      font-size: 1.8rem;
+    }
+    .social-icons a {
+      color: rgba(255,255,255,0.6);
+      transition: 0.2s;
+    }
+    .social-icons a:hover {
+      color: white;
+      transform: translateY(-6px) scale(1.1);
+      text-shadow: 0 0 15px #75aaff;
+    }
+
+    /* footer */
+    .footer {
+      text-align: center;
+      padding: 2rem 0 3rem;
+      color: #90a0c0;
+      font-size: 0.95rem;
+    }
+
+    /* responsiveness */
+    @media (max-width: 700px) {
+      .navbar {
+        margin: 1rem 1rem 2rem;
+        padding: 0.7rem 1.5rem;
+      }
+      .nav-links {
+        gap: 1.2rem;
+      }
+      .hero {
+        margin-top: 2rem;
+      }
+      .contact-panel {
+        flex-direction: column;
+        text-align: center;
+        padding: 2.2rem 1.5rem;
+        border-radius: 3rem;
+      }
+      .contact-email {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky glass navbar -->
+  <nav class="navbar">
+    <span class="logo"><i class="fas fa-bolt" style="color: #73abff; margin-right: 6px;"></i>alexmorgan</span>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- HERO section -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <span class="badge"><i class="far fa-star" style="margin-right: 6px;"></i> UI/Web designer since 2018</span>
+        <h1>Designing clarity, <br>animating futures</h1>
+        <p>I'm Alex Morgan — I craft digital experiences with glass‑like precision and thoughtful interactions. Let's build something memorable.</p>
+        <div class="cta-buttons">
+          <a href="#work" class="btn btn-primary"><i class="fas fa-arrow-down"></i> See work</a>
+          <a href="#contact" class="btn btn-outline"><i class="fas fa-comment"></i> Let's talk</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="glass-avatar">
+          <i class="fas fa-pen-fancy"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS / services with glass chips -->
+    <section id="skills">
+      <h2 class="section-heading">craft & tools</h2>
+      <div class="skills-grid">
+        <div class="skill-item"><i class="fas fa-paint-brush"></i> UI/UX design</div>
+        <div class="skill-item"><i class="fas fa-code"></i> HTML/CSS/JS</div>
+        <div class="skill-item"><i class="fas fa-layer-group"></i> Framer & Webflow</div>
+        <div class="skill-item"><i class="fas fa-mobile-alt"></i> responsive</div>
+        <div class="skill-item"><i class="fas fa-cube"></i> 3D / WebGL</div>
+        <div class="skill-item"><i class="fas fa-magic"></i> micro‑animations</div>
+        <div class="skill-item"><i class="fas fa-pencil-ruler"></i> design systems</div>
+        <div class="skill-item"><i class="fas fa-universal-access"></i> a11y</div>
+      </div>
+    </section>
+
+    <!-- PROJECTS section (WORK) -->
+    <section id="work">
+      <h2 class="section-heading">selected projects</h2>
+      <div class="projects-grid">
+        <!-- card 1 -->
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-glasses"></i></div>
+          <h3>LUMINA</h3>
+          <p>Brand identity & web interface for a futuristic eyewear startup. Heavy glassmorphism + 3D configurator.</p>
+          <div class="project-tags">
+            <span class="tag">web design</span>
+            <span class="tag">Webflow</span>
+            <span class="tag">3D</span>
+          </div>
+          <a href="#" class="project-link">case study <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <!-- card 2 -->
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-cloud-moon"></i></div>
+          <h3>NOVA bank</h3>
+          <p>Minimalist dashboard with glass cards, micro‑interactions and dark mode. Increased user retention by 27%.</p>
+          <div class="project-tags">
+            <span class="tag">UI/UX</span>
+            <span class="tag">Figma</span>
+            <span class="tag">prototype</span>
+          </div>
+          <a href="#" class="project-link">case study <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <!-- card 3 -->
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-leaf"></i></div>
+          <h3>evergreen</h3>
+          <p>Sustainable e‑commerce platform. Smooth scroll animations, custom illustrations, and glass product cards.</p>
+          <div class="project-tags">
+            <span class="tag">shopify</span>
+            <span class="tag">frontend</span>
+            <span class="tag">motion</span>
+          </div>
+          <a href="#" class="project-link">case study <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <!-- card 4 -->
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-shapes"></i></div>
+          <h3>ORB studio</h3>
+          <p>Portfolio for a creative agency. Heavy hover effects, generative gradients, and blur overlays.</p>
+          <div class="project-tags">
+            <span class="tag">concept</span>
+            <span class="tag">gsap</span>
+            <span class="tag">awarded</span>
+          </div>
+          <a href="#" class="project-link">live demo <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT area + glass callout -->
+    <section id="contact">
+      <div class="contact-panel">
+        <div class="contact-left">
+          <h2>collide & create</h2>
+          <div class="contact-email"><i class="far fa-envelope" style="margin-right: 15px;"></i> hello@alex.design</div>
+        </div>
+        <div class="social-icons">
+          <a href="#" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© 2026 alex morgan — designed with <i class="fas fa-heart" style="color: #ff9fcf;"></i> and glass</span>
+    </footer>
+  </main>
+
+  <!-- tiny smooth scroll + optional hover effect (just for extra glow) -->
+  <script>
+    (function() {
+      // add a subtle mouse-move dependent shadow on project cards? (optional)
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        card.addEventListener('mousemove', function(e) {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left; // x within element
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const angleX = (x - centerX) / 15;
+          const angleY = (centerY - y) / 15; // invert Y
+          card.style.transform = `perspective(1000px) rotateY(${angleX}deg) rotateX(${angleY}deg) scale(1.01)`;
+        });
+        card.addEventListener('mouseleave', function() {
+          card.style.transform = '';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
