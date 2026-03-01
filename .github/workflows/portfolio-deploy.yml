@@ -1,0 +1,34 @@
+name: portfolio concurrency: 
+
+on: 
+  push:
+      branches: [main]
+
+permissions:
+    pages: write
+    
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environments:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.pages_url }} 
+    steps:
+      # get access to yout portfolio code via pre built actions  
+      # step 1
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      # setup github pages  
+      # step 2
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+        
+      # static code artifacts (upload file to /var/www/nginx)
+      #step 3
+      - name: Upload static files
+        uses: actions/upload-pages-artifact@v4
+        
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
