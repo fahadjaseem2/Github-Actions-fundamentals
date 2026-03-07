@@ -1,5 +1,6 @@
 name: cicd
 on: 
+# for manually run the workflow
   workflow_dispatch: null
 
 jobs:
